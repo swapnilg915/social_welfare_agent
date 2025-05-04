@@ -51,8 +51,9 @@ The results are returned as structured JSON: applicant_profile and llm_decision.
 
 1. Clone the repository
 
-git clone https://github.com/your-org/social_support_system_agentic.git
-cd social_support_system_agentic
+repo -> https://github.com/swapnilg915/social_welfare_agent
+git clone https://github.com/swapnilg915/social_welfare_agent.git
+cd social_welfare_agent
 
 2. Create a virtual environment and install dependencies
 
@@ -89,4 +90,57 @@ streamlit run frontend/chat_with_case.py
 
 Build image -> docker build -t social-welfare-agent:latest .
 Run container -> docker run -p 5000:5000 --env-file .env social-welfare-agent:latest
+
+
+### Mongo
+
+# Installation
+    # For macOS
+        brew tap mongodb/brew
+        brew install mongodb-community@7.0
+        brew services start mongodb-community@7.0
+
+    # For Ubuntu
+        # Import the public key
+        curl -fsSL https://pgp.mongodb.com/server-7.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
+
+        # Add MongoDB repo
+        echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+
+        # Update & install
+        sudo apt update
+        sudo apt install -y mongodb-org
+
+        # Start the service
+        sudo systemctl start mongod
+        sudo systemctl enable mongod
+
+
+# check data
+    activate python environment
+    python (enter)
+    from pymongo import MongoClient
+    client = MongoClient("mongodb://localhost:27017")
+    db = client["social_support"]
+    collection = db["cases"]
+
+    # display all cases
+    for case in collection.find():
+        print(case)
+
+    # delete all cases
+    collection.delete_many({})
+
+    or download mongoDB compass and create a connection using -> "mongodb://localhost:27017"
+    you will be able to see all cases data, files stored, modify/edit/delete/add data
+
+
+    ### Langfuse
+    go to -> https://cloud.langfuse.com
+    create your account
+    create api credentials with public key and secret key
+    create a organization, then project
+    once we process applicant documents, we can go to langfuse dashbaord and we will be able to see all llm calls, and their details like prompt, cost, latency details etc.
+
+
 

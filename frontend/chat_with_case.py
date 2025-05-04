@@ -27,7 +27,8 @@ if not cases:
     st.warning("No cases available yet. Please upload and run the pipeline.")
     st.stop()
 
-case_titles = [f"{case['case_id']} - {case['applicant_profile'].get('account_name', 'N/A')}" for case in cases]
+# case_titles = [f"{case['case_id']} - {case['applicant_profile'].get('account_name', 'N/A')}" for case in cases]
+case_titles = [case["case_id"] for case in cases]
 selected_index = st.selectbox("Select a Case", range(len(cases)), format_func=lambda i: case_titles[i])
 selected_case = cases[selected_index]
 case_id = selected_case["case_id"]

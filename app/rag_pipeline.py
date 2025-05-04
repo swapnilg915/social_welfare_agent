@@ -19,7 +19,7 @@ os.environ["OPENAI_API_KEY"] = config["openai_api_key"]
 
 # Init once
 mongo = MongoDBHandler()
-llm = ChatOpenAI(model="gpt-4", temperature=0.2)
+llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.2)
 embeddings = OpenAIEmbeddings()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
 
