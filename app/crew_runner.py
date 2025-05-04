@@ -2,6 +2,7 @@ import json
 import re
 import uuid
 from crewai import Crew, Task
+from langfuse.decorators import observe
 from app.shared_state import UPLOADED_FILES
 from tools.mongo_tool import MongoDBHandler
 
@@ -29,7 +30,8 @@ def try_fix_json(raw_text):
             return json.loads(fixed)
         except Exception:
             return {"error": f"Invalid JSON format: {raw_text[:100]}..."}
-        
+
+@observe(name="run_pipeline")
 def run_pipeline(uploaded_files: dict):
     # Save uploaded files globally
     UPLOADED_FILES.clear()

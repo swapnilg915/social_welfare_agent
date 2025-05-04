@@ -85,5 +85,8 @@ Visit http://localhost:8501 in your browser.
 streamlit run frontend/chat_with_case.py
 
 
+4. Docker (Backend)
 
+Build image -> docker build -t social-welfare-agent:latest .
+Run container -> docker run -p 5000:5000 --env-file .env social-welfare-agent:latest
 
