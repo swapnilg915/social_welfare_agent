@@ -8,6 +8,5 @@ openai>=1.16.0
 scikit-learn
 pdf2image
 streamlit>=1.28.0
-tqdm
 crewai
 pymongo
