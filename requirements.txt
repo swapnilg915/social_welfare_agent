@@ -1,0 +1,13 @@
+flask
+pdfplumber
+pytesseract
+pandas
+langchain>=0.1.13
+langchain-openai>=0.0.6
+openai>=1.16.0
+scikit-learn
+pdf2image
+streamlit>=1.28.0
+tqdm
+crewai
+pymongo
