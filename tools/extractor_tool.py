@@ -1,5 +1,3 @@
-# tools/extractor_tool.py
-
 from crewai.tools import tool
 from pydantic import BaseModel
 import pandas as pd
@@ -74,8 +72,11 @@ def extract_text_tool(filename: str) -> str:
 
         elif filename.endswith(".csv"):
             try:
-                df = pd.read_csv(io.BytesIO(file_bytes))
-                return df.to_string(index=False)
+                file.seek(0)
+                df = pd.read_csv(io.BytesIO(file.read()))
+                csv_data = df.to_string(index=False)
+                print("\n\n\n csv_data --- ", csv_data)
+                return csv_data
             except Exception as e:
                 return f"❌ Failed to read CSV: {str(e)}"
         

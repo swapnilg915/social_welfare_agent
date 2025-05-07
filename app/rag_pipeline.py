@@ -1,7 +1,7 @@
-# rag_pipeline.py
-
 import os
 import uuid
+import io
+import pandas as pd
 from typing import List
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -12,6 +12,10 @@ from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from app.config import load_config
 from tools.mongo_tool import MongoDBHandler
+
+from langchain.document_loaders import CSVLoader
+from langchain.document_loaders.excel import UnstructuredExcelLoader
+
 
 # Load config
 config = load_config()
@@ -37,6 +41,26 @@ def get_documents_from_case(case_id: str) -> List[Document]:
     for fname, content in raw_texts.items():
         if not content.strip():
             continue  # Skip empty content
+
+        if fname.endswith(".csv"):
+            try:
+                df = pd.read_csv(io.StringIO(content))
+                for col in df.columns:
+                    df[col] = df[col].astype(str)  # Ensure text format
+                df_chunks = text_splitter.create_documents([df.to_string(index=False)])
+                for doc in df_chunks:
+                    doc.metadata = {"filename": fname, "case_id": case_id}
+                documents.extend(df_chunks)
+                continue
+            except Exception as e:
+                print(f"❌ Failed to parse CSV {fname}: {e}")
+                continue
+
+        # Future support for Excel
+        elif fname.endswith(".xlsx"):
+            # Not implemented yet. You can use UnstructuredExcelLoader or convert to CSV.
+            continue
+
         chunks = text_splitter.create_documents([content])
         for doc in chunks:
             doc.metadata = {"filename": fname, "case_id": case_id}

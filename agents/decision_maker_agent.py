@@ -1,6 +1,7 @@
 import os
 from crewai import Agent
 from langchain_openai import ChatOpenAI
+from langfuse.openai import openai
 from langfuse.callback import CallbackHandler
 from app.config import load_config
 config = load_config()
@@ -43,7 +44,7 @@ Your task is to decide whether to APPROVE or DECLINE the application based on:
 - Address and name consistency
 - Any flagged validation issues
 
-✅ You MUST return ONLY a **valid JSON** object, with **all keys in double quotes** (").
+You MUST return ONLY a **valid JSON** object, with **all keys in double quotes** (").
 
 Example format (strictly follow this):
 
